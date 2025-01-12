@@ -2,7 +2,6 @@ import './App.css';
 import { useState } from "react";
 import  Axios  from "axios";
 
-
 function App() {
   const [nombre, setNombre] = useState("");
   const [edad, setEdad] = useState();
@@ -16,14 +15,11 @@ function App() {
 
   const[empleadosList,setEmpleados] = useState([])
 
-
-
-  
   const add = () => {
     // Mostrar en consola los datos que se van a enviar
     console.log(nombre, edad, pais, cargo, year);
 
-    Axios.post("http://localhost:3000/create", {
+    Axios.post("http://localhost:3001/create", {
       nombre: nombre,
       edad: edad,
       pais: pais,
@@ -32,28 +28,77 @@ function App() {
   })
   .then(response => {
     getEmpleados();
-
       console.log("Empleado registrado:", response.data);
- 
-
   })
   .catch(error => {
       console.error("Error al registrar empleado:", error);
   });
+  };
+
+
+//! update
+  const update = () => {
+    // Mostrar en consola los datos que se van a enviar
+    console.log(nombre, edad, pais, cargo, year);
+   //* maje sure ut the same url as app.put("/update", (req, res) => {
+    Axios.put("http://localhost:3001/update", {
+      id:id,
+      nombre: nombre,
+      edad: edad,
+      pais: pais,
+      cargo: cargo,
+      anios: year
+  })
+  .then(response => {
+    getEmpleados();
+    limpiarCampos()// this functio is to clean after it been send 
+      console.log("Empleado registrado:", response.data);
+  })
+  .catch(error => {
+      console.error("Error al registrar empleado:", error);
+  });
+  };
+
+
+  //! function lo clean after it 
+  const limpiarCampos = () => {
+    setNombre("");
+    setEdad("");
+    setPais("");
+    setCargo("");
+    setYear("");
+    setId("");
+
+    setEditar(false)
+
+    //? that setEditar is the boolean to go back at it was 
+//     <div className="">
+//   {
+//     editar ?
+//       <button onClick={actualizarEmpleado}>Actualizar</button> :
+//       <button onClick={add}>Registrar</button>
+//   }
+// </div>
+  };
   
 
-  };
-//* function the get the empeleados 
+
+
+
+
+// //* function the get the empeleados 
   const getEmpleados = () => {
     // Cambiar de POST a GET 
     //! the error was on the localhost that it was in 3001 
-    Axios.get("http://localhost:3000/empleados")
+    Axios.get("http://localhost:3001/empleados")
       .then((response) => {
         setEmpleados(response.data); // in case in goes well 
       })
-      .catch((error) => {
-        console.error("Error al obtener empleados:", error);
-      });
+
+      //! I have to comment cause it gave me a lot of error, " what is the error"
+      // .catch((error) => {
+      //   console.error("Error al obtener empleados:", error);
+      // });
   };
   
   getEmpleados();
@@ -139,9 +184,19 @@ function App() {
           />
         </label>
         <br />
-        <button onClick={add} >
-          Add
-        </button>
+        <div className="">
+          {
+            editar?
+            <did>
+              <button onClick={update}>Actualizar</button>
+               <button onClick={limpiarCampos}>cancelar</button>
+            </did> :
+            <button onClick={add}>Registar</button>
+            // <button onClick={add}  >actualizar</button>
+            
+          }
+  
+        </div>
       </div>
       <div className='lista'>
       {/* <button onClick={getEmpleados} >
@@ -173,6 +228,7 @@ function App() {
             <td>{val.cargo}</td>
             <td>{val.anios}</td>
             <td>
+              {/* this is the areo of the buttons */}
             <div className='buttosAct'>
             <button className='edict' onClick={()=> {
               editarEmpleado(val);
@@ -180,7 +236,7 @@ function App() {
           editar
         </button>
             <button className='delete' onClick={add} >
-          Add
+          eliminar ftr
         </button>
             </div>
             </td>
