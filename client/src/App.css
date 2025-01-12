@@ -1,0 +1,113 @@
+/* Estilos generales */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  color: #333;
+
+  min-height: 100vh;
+}
+
+/* Estilos para el contenedor principal */
+.App {
+  text-align: center;
+  background: white;
+  padding: 50px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  
+}
+
+/* Título */
+.App h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #4CAF50;
+}
+
+/* Estilos del formulario */
+.datos label {
+  display: block;
+  margin-bottom: 15px;
+  font-size: 16px;
+  text-align: left;
+}
+
+/* Estilo para los inputs */
+.datos input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.datos input:focus {
+  border-color: #4CAF50;
+}
+
+/* Botón */
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* estyles for the data  */
+.datos {
+  text-align: left;
+}
+
+.datos label + label {
+  margin-top: 10px;
+}
+.listaDatos {
+  margin-top: 20px;
+  padding: 10px;
+}
+
+.tablaEmpleados {
+  width: 100%; /* use the 100% avaleible*/
+  border-collapse: collapse; /* delete the spaces  */
+  margin-top: 20px;
+  background-color: #f9f9f9;
+}
+
+.tablaEmpleados th,
+.tablaEmpleados td {
+  border: 1px solid #ddd; 
+  padding: 12px; 
+  text-align: left; 
+  font-size: 14px;
+}
+
+.tablaEmpleados th {
+  background-color: #4CAF50; 
+  color: white; 
+  font-weight: bold;
+}
+
+.tablaEmpleados tr:nth-child(even) {
+  background-color: #f2f2f2; /* alter color on rows */
+}
+
+.tablaEmpleados tr:hover {
+  background-color: #ddd; /* Efect hover en rows */
+}
+
+.tablaEmpleados td {
+  color: #333;
+}
