@@ -6,7 +6,7 @@ const cors = require("cors")
  app.use(cors());
  app.use(express.json())
 
- const PORT = 5000; 
+ const PORT = 5000; //! remenber always use a diferent port no even 3000 0r 3001
 
 // crating the connection at sql
 const db = mysql.createConnection({
@@ -17,7 +17,7 @@ const db = mysql.createConnection({
 })
 
 // saving the data with the mettod post the root it  gonna call on create , req = solicitud , res = respond 
-app.post("http://localhost:5000/create", (req, res) => {
+app.post("/create", (req, res) => {
     const { nombre, edad, pais, cargo, anios } = req.body;
 
     const query = 'INSERT INTO empleados (nombre, edad, pais, cargo, anios) VALUES (?, ?, ?, ?, ?)';
