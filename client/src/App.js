@@ -19,7 +19,7 @@ function App() {
     // Mostrar en consola los datos que se van a enviar
     console.log(nombre, edad, pais, cargo, year);
 
-    Axios.post("http://localhost:3001/create", {
+    Axios.post("http://localhost:5000/create", {
       nombre: nombre,
       edad: edad,
       pais: pais,
@@ -41,7 +41,7 @@ function App() {
     // Mostrar en consola los datos que se van a enviar
     console.log(nombre, edad, pais, cargo, year);
    //* maje sure ut the same url as app.put("/update", (req, res) => {
-    Axios.put("http://localhost:3001/update", {
+    Axios.put("http://localhost:5000/update", {
       id:id,
       nombre: nombre,
       edad: edad,
@@ -90,7 +90,7 @@ function App() {
   const getEmpleados = () => {
     // Cambiar de POST a GET 
     //! the error was on the localhost that it was in 3001 
-    Axios.get("http://localhost:3001/empleados")
+    Axios.get("http://localhost:5000/empleados")
       .then((response) => {
         setEmpleados(response.data); // in case in goes well 
       })
