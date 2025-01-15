@@ -1,0 +1,162 @@
+primero creo que la carpeta client , que hay ira  todo el frontend con react > npx create-react-app
+la carpeta de server va todo lo asociado al backend  > donde i mysql and express, en react para empezar a correr npm start 
+
+en el server creamos el archivo index.js donde ira todo lo relacionado con el backend, lo llame index.js al eccho de que en el packge.json en lo de main ira a buscar el index.js en el caso de que quiera cambiarlo de nombre tendria que cambiar tambien el nombre el el pavkge.json "para que sea referrenciado bienn"
+
+
+# en app.js creo un formulario i uso > useState 
+useState es un hook en React que permite agregar y gestionar estado en componentes funcionales. Antes de los hooks, solo los componentes de clase podían tener estado. Ahora, con useState, puedes usar el estado en componentes funcionales, lo que hace que el código sea más limpio y fácil de manejar.
+
+
+const [nombre, setNombre] = useState ("");
+const [edad, setEdad] = useState (0);
+const [pais, setPais] = useState ("");
+const [cargo, setCargo] = useState ("");
+const [year, setYear] = useState (0)
+
+Este código está utilizando el hook useState para declarar y gestionar cinco variables de estado diferentes en un componente de React. Cada una de estas variables de estado (nombre, edad, pais, cargo, year) almacena un valor que puede cambiar dinámicamente durante la ejecución del componente.
+
+agrega a cada input   <input onChange={(event) => {
+            setNombre(event.target.value);
+          }} type="text" /> 
+# en el button <button
+          onClick={mostrarDatos}
+        >
+          Add
+        </button>
+        lo que hace es llamar la a funcion 
+
+#ahora voy a  empezar a llamar express en sever 
+const express = require("express");
+const app = express();
+// callin to listenning on port N 
+app.listen(3001,()=>{
+ console.log("listenning on post 3001")
+});
+
+creadon para ver si esta escuchando en el puerto 3001 usa node index.js para verificarlo 
+# ahora crea una base de datos,
+
+const mysql = require("mysql2") pide el sql para poder connectarte a la base de datos, creo que connection i la guardo en la const db
+
+# ahora creo la llamda 
+con el metodo post el parrametro req el la solicitud i el res es la respuesta 
+app.post("/crate",(req, res)=> {
+
+
+ const anios = req.body.anios;
+
+ pongo la const con anios i con lo de req hago la solicitas i con lo de body es decir lo que tiene que en cuerpo 
+
+     db.query('INSERT INTO empleados(nombre,edad,pais,cargo,anios) VALUES(?,?,?,?,?,))',[
+        nombre,edad,pais,cargo,anios
+    ])
+ DB.QUERY LO que hago es hacer la solicitud i con ? lo que le digo en plan que sera una promesa 
+ i lo que esta dentro de [nombre] para remplazar los valores que cogimos de la solicitus
+})
+
+ahora anade axios npm i axios
+
+en app importa axios se usa para hacer la peticiones 
+
+# i npm i cors >
+¿Para qué sirve app.use(cors())?
+Cuando usas app.use(cors()), le estás diciendo a tu servidor Express que permita solicitudes de otros dominios (orígenes), habilitando el CORS. Esto permite que tu frontend (que puede estar corriendo en un puerto diferente o dominio distinto) pueda hacer solicitudes a tu servidor backend sin ser bloqueado por el navegador.
+
+recuarda add  app.use(express.json()) 
+be sure that todos los locales son el mismo lo de localhost 3000 por ejemplo 
+
+  const getEmpleados = () => {
+    // Mostrar en consola los datos que se van a enviar
+    Axios.post("http://localhost:3001/create").then((response)=> {
+      setEmpleados(response.data);
+    })
+  }; con este codigo lo que estoy haciendo e hacer una llamada a la api de sql 
+   const[empleadosList,setEmpleados] = useState([]) esto es como si fuera el array creo esto es la llamada a a la api
+
+   luego en App ,  voy a hacer el button para listar la app <button onClick={getEmpleados} >
+          Listar
+        </button>
+
+
+        app.get("/empleados", (req, res) => {
+    const query = 'SELECT * FROM empleados'; // Asegúrate de que la consulta esté bien
+    db.query(query, (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Error al obtener empleados");
+      } else {
+        res.send(result);
+      }
+    });
+  }); aqui lo que estoy haciendo es llamar a la parte de sql para recoger los datos 
+   recuarda que cada uno tiene que tener su propio key     return <div key={key}>{val.nombre}</div>;
+
+   app.listen(3001, () => {
+    console.log("Server is listening on port 3000");
+}); esto tiene que escuchar en otro puerto difrente al de hago las peticiones si no me dara un fallo 
+
+ {
+        empleadosList.map((val,key)=> {
+          // return<div className=''> {val.nombre}</div>
+          return <div className='' key={key}>{val.nombre}</div>;
+        })
+      } aqui estoy iterando para mostrar los empleados  que tengo , elimine el button 
+
+       <tbody>
+      {
+        empleadosList.map((val, key) => (
+          <tr key={key}>
+            <td>{val.nombre}</td>
+            <td>{val.edad}</td>
+            <td>{val.pais}</td>
+            <td>{val.cargo}</td>
+            <td>{val.anios}</td>
+          </tr>
+        ))
+      }
+    </tbody> creadon una tabla con los datos recuerda val= es el valor y key = es el valor que proviene de sql
+
+
+    ahora vamos con el actulizar 
+    
+app.put("/update", (req, res) => {
+    const { nombre, edad, pais, cargo, anios,id } = req.body;
+
+    const query = 'UPDATE empleados SET (nombre, edad, pais, cargo, anios) VALUES (?, ?, ?, ?, ?) WHERE id = ?';
+
+    db.query(query, [id,nombre, edad, pais, cargo, anios], (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Error al registrar el empleado");
+        } else {
+            res.send("Empleado actualizado exitosamente");
+        }
+    });
+}); recuerda usamos el put i cambiamos con update para saber cual exactamente queremos actualizar necesitamos el id
+
+creo dos buttos, uno para editar i otro to delete 
+  const[editar,setEditar] = useState(false) en react 
+
+  let editar = false;
+
+function toggleEditar() {
+  editar = !editar; // Cambiar estado
+  document.getElementById("estado").innerText = editar ? "Modo Edición" : "Modo Vista"; // Actualizar el DOM
+}
+
+// Ejemplo en HTML:
+document.getElementById("toggleButton").addEventListener("click", toggleEditar);
+ en js
+
+
+  const editarEmpleado = (val) => {
+    setEditar(true);
+
+    setNombre(val.nombre);
+    setNombre(val.edad);
+    setNombre(val.cargo);
+    setNombre(val.pais);
+    setNombre(val.anios);
+    setNombre(val.id);
+  } esto es la funcion para actulizar los empleados 

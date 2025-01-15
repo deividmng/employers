@@ -6,6 +6,8 @@ const cors = require("cors")
  app.use(cors());
  app.use(express.json())
 
+ const PORT = 5000; 
+
 // crating the connection at sql
 const db = mysql.createConnection({
     host:"localhost",
@@ -15,7 +17,7 @@ const db = mysql.createConnection({
 })
 
 // saving the data with the mettod post the root it  gonna call on create , req = solicitud , res = respond 
-app.post("/create", (req, res) => {
+app.post("http://localhost:5000/create", (req, res) => {
     const { nombre, edad, pais, cargo, anios } = req.body;
 
     const query = 'INSERT INTO empleados (nombre, edad, pais, cargo, anios) VALUES (?, ?, ?, ?, ?)';
@@ -31,7 +33,7 @@ app.post("/create", (req, res) => {
 });
 
 //! to get the data fro the sql 
-app.get("/empleados", (req, res) => {
+app.get("http://localhost:5000/empleados", (req, res) => {
     const query = 'SELECT * FROM empleados'; // Asegúrate de que la consulta esté bien
     db.query(query, (err, result) => {
       if (err) {
@@ -45,7 +47,7 @@ app.get("/empleados", (req, res) => {
   
 //! here it goes the actualizar 
 
-app.put("/update", (req, res) => {
+app.put("http://localhost:5000/update", (req, res) => {
     const { id, nombre, edad, pais, cargo, anios } = req.body;
   
     //! worng way   const query = 'UPDATE empleados SET (id, nombre, edad, pais, cargo, anios) VALUES (?, ?, ?, ?, ?) WHERE id = ?';
@@ -66,14 +68,14 @@ app.put("/update", (req, res) => {
 
 
 /// to be sure is connected 
-app.post("/create", (req, res) => {
-    console.log("Ruta /create alcanzada");
-    // Resto del código
-});
+// app.post("/create", (req, res) => {
+//     console.log("Ruta /create alcanzada");
+//     // Resto del código
+// });
 
 
-app.listen(3001, () => {
-    console.log("Server is listening on port 3000");
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
 
 
