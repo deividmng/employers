@@ -2,6 +2,8 @@ import './App.css';
 import { useState } from "react";
 import  Axios  from "axios";
 
+// Swal is the same as tosta to make the alert look nice
+import Swal from 'sweetalert2'
 
 function App() {
   const [nombre, setNombre] = useState("");
@@ -16,9 +18,6 @@ function App() {
 
   const[empleadosList,setEmpleados] = useState([])
 
-
-
-  
   const add = () => {
     // Mostrar en consola los datos que se van a enviar
     console.log(nombre, edad, pais, cargo, year);
@@ -32,18 +31,131 @@ function App() {
   })
   .then(response => {
     getEmpleados();
-
-      console.log("Empleado registrado:", response.data);
- 
-
+    limpiarCampos();
+    Swal.fire({
+      title: "User have been register succefully!",
+      //! Remenber the way to concact 
+      html:"<i>The user "+nombre+"</i>",
+      text: "You clicked the button!",
+      icon: "success",
+      timer:5000 //* 3 second 
+    });
   })
   .catch(error => {
       console.error("Error al registrar empleado:", error);
   });
-  
-
   };
-//* function the get the empeleados 
+
+
+//! update
+  const update = () => {
+    // Mostrar en consola los datos que se van a enviar
+    console.log(nombre, edad, pais, cargo, year);
+   //* maje sure ut the same url as app.put("/update", (req, res) => { and use the id 
+    Axios.put("http://localhost:5000/update", {
+      id:id,
+      nombre: nombre,
+      edad: edad,
+      pais: pais,
+      cargo: cargo,
+      anios: year
+  })
+  .then(response => {
+    Swal.fire({
+      title: "User Registered Successfully!",
+      html: "<i>The user <strong>" + nombre + "</strong> has been registered successfully.</i>",
+      text: "Thank you for registering the user.",
+      icon: "success",
+      timer: 3000 // 3 seconds
+    });
+       
+ 
+    getEmpleados();
+    limpiarCampos()// this functio is to clean after it been send 
+      console.log("Empleado registrado:", response.data);
+  })
+  .catch(error => {
+      console.error("Error al registrar empleado:", error);
+  });
+  };
+
+
+  //! function lo clean after it 
+  const limpiarCampos = () => {
+    setNombre("");
+    setEdad("");
+    setPais("");
+    setCargo("");
+    setYear("");
+    setId("");
+
+    // to change the boolean at false, on that way will show the other button
+    setEditar(false)
+
+    //? that setEditar is the boolean to go back at it was 
+//     <div className="">
+//   {
+//     editar ?
+//       <button onClick={actualizarEmpleado}>Actualizar</button> :
+//       <button onClick={add}>Registrar</button>
+//   }
+// </div>
+  };
+  
+//! delete 
+//* pasa el parametro val or nay to acces the nombre etc 
+const deleteEmployee = (val) => {
+  // Show a confirmation dialog with two buttons
+  Swal.fire({
+    title: "Are you sure you want to delete this user?",
+    html: "<i>The user <strong>" + val.nombre + "</strong> will be deleted.</i>",
+    icon: "warning",
+    showCancelButton: true,  // Show the cancel button
+    confirmButtonText: "Yes, delete",  // Text for the "Yes" button
+    cancelButtonText: "No, cancel",  // Text for the "No" button
+    customClass: {
+      confirmButton: 'my-red-button',
+      cancelButton: 'my-cancel-button'
+  },
+    reverseButtons: true,  // Reverse the order of the buttons
+  }).then((result) => {
+    // Check if the user clicked "Yes"
+    if (result.isConfirmed) {
+      // Use val.id instead of id to ensure the correct user is deleted
+      Axios.delete(`http://localhost:5000/delete/${val.id}`)
+        .then(response => {
+          Swal.fire({
+           title: `<i>User <strong>${val.nombre}</strong> has been deleted.</i>`, 
+           icon: "success",
+            timer: 3000 // 3 seconds
+          });
+          // Refresh the employee list after deletion
+          getEmpleados();
+        })
+        .catch(error => {
+          console.error("Error deleting the employee:", error);
+          Swal.fire({
+            title: "Error",
+            text: "There was an error trying to delete the user.",
+            icon: "error"
+          });
+        });
+    } else {
+      // If the user cancels, you can show a message or do something
+      Swal.fire({
+        title: "Cancelled",
+        text: "The user was not deleted.",
+        icon: "info"
+      });
+    }
+  });
+};
+
+
+
+
+
+// //* function the get the empeleados 
   const getEmpleados = () => {
     // Cambiar de POST a GET 
     //! the error was on the localhost that it was in 3001 
@@ -51,6 +163,8 @@ function App() {
       .then((response) => {
         setEmpleados(response.data); // in case in goes well 
       })
+
+      //! I have to comment cause it gave me a lot of error, " what is the error"
       .catch((error) => {
         console.error("Error al obtener empleados:", error);
       });
@@ -139,9 +253,21 @@ function App() {
           />
         </label>
         <br />
-        <button onClick={add} >
-          Add
-        </button>
+        <div className="">
+
+          {/* this is a if else  */}
+          {
+            editar?
+            <did>
+              <button onClick={update}>Actualizar</button>
+               <button onClick={limpiarCampos}>cancelar</button>
+            </did> :
+            <button onClick={add}>Registar</button>
+            // <button onClick={add}  >actualizar</button>
+            
+          }
+  
+        </div>
       </div>
       <div className='lista'>
       {/* <button onClick={getEmpleados} >
@@ -173,15 +299,15 @@ function App() {
             <td>{val.cargo}</td>
             <td>{val.anios}</td>
             <td>
+              {/* this is the areo of the buttons */}
             <div className='buttosAct'>
             <button className='edict' onClick={()=> {
               editarEmpleado(val);
             }} >
           editar
         </button>
-            <button className='delete' onClick={add} >
-          Add
-        </button>
+        {/* here is where is the delete , accessing the id with the value*/}
+        <button className='delete' onClick={() =>  deleteEmployee(val)} >Delete</button>
             </div>
             </td>
           </tr>

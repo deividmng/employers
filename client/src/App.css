@@ -111,3 +111,26 @@ button:hover {
 .tablaEmpleados td {
   color: #333;
 }
+
+
+.my-red-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.my-red-button:hover {
+  background-color: darkred;
+}
+
+.my-cancel-button {
+  background-color: gray;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}

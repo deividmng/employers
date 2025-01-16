@@ -6,7 +6,10 @@ const cors = require("cors")
  app.use(cors());
  app.use(express.json())
 
- const PORT = 5000; //! remenber always use a diferent port no even 3000 0r 3001
+ // Define el puerto en el que quieres que corra tu servidor
+const PORT = process.env.PORT || 5000;
+//  const PORT = 5000; // Puerto para el servidor backend make sure that is never the same as the one on frontend
+ //! remenber always use a diferent port no even 3000 0r 3001
 
 // crating the connection at sql
 const db = mysql.createConnection({
@@ -33,7 +36,7 @@ app.post("/create", (req, res) => {
 });
 
 //! to get the data fro the sql 
-app.get("http://localhost:5000/empleados", (req, res) => {
+app.get("/empleados", (req, res) => {
     const query = 'SELECT * FROM empleados'; // Asegúrate de que la consulta esté bien
     db.query(query, (err, result) => {
       if (err) {
@@ -47,7 +50,7 @@ app.get("http://localhost:5000/empleados", (req, res) => {
   
 //! here it goes the actualizar 
 
-app.put("http://localhost:5000/update", (req, res) => {
+app.put("/update", (req, res) => {
     const { id, nombre, edad, pais, cargo, anios } = req.body;
   
     //! worng way   const query = 'UPDATE empleados SET (id, nombre, edad, pais, cargo, anios) VALUES (?, ?, ?, ?, ?) WHERE id = ?';
@@ -64,18 +67,26 @@ app.put("http://localhost:5000/update", (req, res) => {
       }
     });
   });
+
+    //! here it goes the delete
+    app.delete("/delete/:id", (req, res) => {
+      //* I just need ID as it goes by params it dont need the body so add params
+      const { id } = req.params; 
+    
+      const query = `DELETE FROM empleados WHERE id = ?`;
+    
+      db.query(query, [id], (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send("Error deleting employee");
+        } else {
+          res.send("Empleado deleted successfully");
+        }
+      });
+    });
+    
+
   
-
-
-/// to be sure is connected 
-// app.post("/create", (req, res) => {
-//     console.log("Ruta /create alcanzada");
-//     // Resto del código
-// });
-
-
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
-
-
