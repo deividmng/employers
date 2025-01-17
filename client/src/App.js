@@ -51,9 +51,9 @@ function App() {
       timer:5000 //* 3 second 
     });
   })
-  .catch(error => {
-      console.error("Error al registrar empleado:", error);
-  });
+  // .catch(error => {
+  //     console.error("Error al registrar empleado:", error);
+  // });
   };
 
 
@@ -202,10 +202,11 @@ const deleteEmployee = (val) => {
   //   }
   return (
     <div className="App">
-      <h1>Formulario</h1>
+  
+      <h1 >Employee Registration Form</h1>
       <div className="datos">
         <label>
-          Nombre:
+           Name:
               {/*with onChange it target each time it happen any change 
                 (event) it the atributo .value acces to the value 
               */}
@@ -220,7 +221,7 @@ const deleteEmployee = (val) => {
         </label>
         <br />
         <label>
-          Edad:
+          Age:
           <input
           value={edad}
             type="number"
@@ -231,7 +232,7 @@ const deleteEmployee = (val) => {
         </label>
         <br />
         <label>
-          País:
+          City:
           <input
           value={pais}
           
@@ -243,7 +244,7 @@ const deleteEmployee = (val) => {
         </label>
         <br />
         <label>
-          Cargo:
+        Position:
           <input
           value={cargo}
             type="text"
@@ -254,7 +255,7 @@ const deleteEmployee = (val) => {
         </label>
         <br />
         <label>
-          Año:
+          Year of Experencie:
           <input
             value={year}
             type="number"
@@ -264,21 +265,20 @@ const deleteEmployee = (val) => {
           />
         </label>
         <br />
-        <div className="">
+        <div className="button-container">
+  {/* this is a if else */}
+  {
+    editar ? (
+      <div>
+        <button onClick={update}>Actualizar</button>
+        <button className='cancel' onClick={limpiarCampos}>Cancelar</button>
+      </div>
+    ) : (
+      <button onClick={add}>Registrar</button>
+    )
+  }
+</div>
 
-          {/* this is a if else  */}
-          {
-            editar?
-            <did>
-              <button onClick={update}>Actualizar</button>
-               <button onClick={limpiarCampos}>cancelar</button>
-            </did> :
-            <button onClick={add}>Registar</button>
-            // <button onClick={add}  >actualizar</button>
-            
-          }
-  
-        </div>
       </div>
       <div className='lista'>
       {/* <button onClick={getEmpleados} >
@@ -312,13 +312,13 @@ const deleteEmployee = (val) => {
             <td>
               {/* this is the areo of the buttons */}
             <div className='buttosAct'>
-            <button className='edict' onClick={()=> {
+            <button className='btn_edit' onClick={()=> {
               editarEmpleado(val);
             }} >
           editar
         </button>
         {/* here is where is the delete , accessing the id with the value*/}
-        <button className='delete' onClick={() =>  deleteEmployee(val)} >Delete</button>
+        <button className='btn_delete' onClick={() =>  deleteEmployee(val)} >Delete</button>
             </div>
             </td>
           </tr>
