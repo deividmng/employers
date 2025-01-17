@@ -20,7 +20,7 @@ const db = mysql.createConnection({
 })
 
 // saving the data with the mettod post the root it  gonna call on create , req = solicitud , res = respond 
-app.post("/create", (req, res) => {
+app.post(" http://localhost/create", (req, res) => {
     const { nombre, edad, pais, cargo, anios } = req.body;
 
     const query = 'INSERT INTO empleados (nombre, edad, pais, cargo, anios) VALUES (?, ?, ?, ?, ?)';
@@ -36,7 +36,7 @@ app.post("/create", (req, res) => {
 });
 
 //! to get the data fro the sql 
-app.get("/empleados", (req, res) => {
+app.get(" http://localhost/empleados", (req, res) => {
     const query = 'SELECT * FROM empleados'; // Asegúrate de que la consulta esté bien
     db.query(query, (err, result) => {
       if (err) {
@@ -50,7 +50,7 @@ app.get("/empleados", (req, res) => {
   
 //! here it goes the actualizar 
 
-app.put("/update", (req, res) => {
+app.put("http://localhost/update", (req, res) => {
     const { id, nombre, edad, pais, cargo, anios } = req.body;
   
     //! worng way   const query = 'UPDATE empleados SET (id, nombre, edad, pais, cargo, anios) VALUES (?, ?, ?, ?, ?) WHERE id = ?';
@@ -90,3 +90,6 @@ app.put("/update", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
+
+

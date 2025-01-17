@@ -1,7 +1,11 @@
-git status
+
 
 # Node.js dependencies
 node_modules/
 .cache/
 *.pack
 *.lock
+node_modules/.cache/.eslintcache
+node_modules/.cache/default-development/*.pack
+node_modules/.cache/default-development/index.pack
+node_modules/.cache/default-development/index.pack.old
