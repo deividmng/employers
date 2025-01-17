@@ -19,6 +19,16 @@ function App() {
   const[empleadosList,setEmpleados] = useState([])
 
   const add = () => {
+      // validate the all data is included 
+  if (!nombre || !edad || !pais || !cargo || !year) {
+    Swal.fire({
+      title: "Incomplete Fields",
+      text: "Please fill out all fields before submitting.",
+      icon: "warning",
+      timer: 3000 // 3 segundos
+    });
+    return; // Detener la ejecución si hay campos vacíos
+  }
     // Mostrar en consola los datos que se van a enviar
     console.log(nombre, edad, pais, cargo, year);
 
@@ -224,6 +234,7 @@ const deleteEmployee = (val) => {
           País:
           <input
           value={pais}
+          
             type="text"
             onChange={(event) => {
               setPais(event.target.value);
