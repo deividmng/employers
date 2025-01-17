@@ -1,3 +1,4 @@
+
 /* Estilos generales */
 body {
   font-family: Arial, sans-serif;
@@ -60,11 +61,11 @@ button {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  cursor: pointer;
+  margin-right: 12px;
 }
 
-button:hover {
-  background-color: #45a049;
-}
+
 
 /* estyles for the data  */
 .datos {
@@ -133,4 +134,61 @@ button:hover {
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
+}
+
+
+
+
+
+.buttosAct {
+
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+}
+
+.btn_edit{
+  margin-right: 3px;
+  background-color: rgb(175, 175, 26) ;
+}
+.btn_delete{
+  margin-right: 3px;
+  background-color: rgb(205, 81, 19) ;
+}
+.btn_edit,
+.btn_delete {
+  margin-right: 3px;
+  transition: opacity 0.3s ease;
+}
+
+.btn_edit:hover {
+  opacity: 0.5;
+}
+
+.btn_delete:hover {
+  opacity: 0.5;
+}
+
+.btn_edit:hover ~ .btn_delete,
+.btn_delete:hover ~ .btn_edit {
+  opacity: 0;
+}
+
+
+.cancel {
+  background-color: rgb(202, 168, 1);
+}
+
+
+
+.button-container button {
+  transition: opacity 0.3s ease;
+}
+
+.button-container button:hover {
+  opacity: 0.5;
+}
+
+.button-container button:hover ~ button {
+  opacity: 0;
 }
